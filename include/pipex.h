@@ -6,7 +6,7 @@
 /*   By: dhawkgir <dhawkgir@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 20:52:42 by dhawkgir          #+#    #+#             */
-/*   Updated: 2022/01/10 01:32:00 by dhawkgir         ###   ########.fr       */
+/*   Updated: 2022/01/15 00:46:17 by dhawkgir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
-# include "libft.h"
+# include "../libft/includes/libft.h"
 # include <errno.h>
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -26,14 +26,20 @@
 # define ERR_ARG1	"pipex: Usage:\t./pipex [FILE] [COMMAND]... [FILE]\n\t"
 # define ERR_ARG2	"or:\t./pipex here_doc [LIMITER] [COMMAND] [COMMAND] [FILE]"
 
-# define SIDE_OUT 1
-# define SIDE_IN 0
+enum e_side
+{
+	SIDE_IN,
+	SIDE_OUT
+};
 
-# define R_LEFT 1
-# define R_RIGHT 2
-# define R_DRIGHT 3
-# define R_DLEFT 4
-# define PIPE 5
+enum e_redirect
+{
+	R_LEFT,
+	R_RIGHT,
+	R_DLEFT,
+	R_DRIGHT,
+	PIPE
+};
 
 typedef struct s_cmd
 {
@@ -54,12 +60,11 @@ typedef struct s_param
 	size_t	size;
 }	t_param;
 
-void	ft_free(char **str);
+void	free_path(char **str);
 char	**free_array(char **array);
-void	exit_error(char *s);
-void	exit_error_arg(char *msg, char *arg);
-void	execute_commands(t_param *param, char **env);
-char	*get_env_value(char *name, char **env);
+void	exit_error(char *msg, char *arg);
+void	execute(t_param *param, char **env);
+char	*get_path_value(char *name, char **env);
 void	pipex(t_param *param, int i);
 
 #endif

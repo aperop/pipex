@@ -6,13 +6,13 @@
 /*   By: dhawkgir <dhawkgir@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 20:51:48 by dhawkgir          #+#    #+#             */
-/*   Updated: 2022/01/10 01:53:00 by dhawkgir         ###   ########.fr       */
+/*   Updated: 2022/01/15 00:03:15 by dhawkgir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_free(char **str)
+void	free_path(char **str)
 {
 	if (!*str)
 		return ;
@@ -34,17 +34,7 @@ char	**free_array(char **array)
 	return (NULL);
 }
 
-void	exit_error(char *s)
-{
-	ft_putstr_fd("./pipex: ", STDERR_FILENO);
-	if (errno)
-		perror(s);
-	else
-		ft_putendl_fd(s, STDERR_FILENO);
-	exit(EXIT_FAILURE);
-}
-
-void	exit_error_arg(char *msg, char *arg)
+void	exit_error(char *msg, char *arg)
 {
 	ft_putstr_fd(msg, STDERR_FILENO);
 	if (errno)
@@ -54,10 +44,10 @@ void	exit_error_arg(char *msg, char *arg)
 	exit(EXIT_FAILURE);
 }
 
-char	*get_env_value(char *name, char **env)
+char	*get_path_value(char *name, char **env)
 {
 	int		i;
-	char	*eq;
+	char	*tmp;
 	char	*value;
 
 	i = 0;
@@ -65,12 +55,12 @@ char	*get_env_value(char *name, char **env)
 	{
 		if (!ft_strncmp(env[i], name, ft_strlen(name)))
 		{
-			eq = ft_strchr(env[i], '=');
-			if (eq)
+			tmp = ft_strchr(env[i], '=');
+			if (tmp)
 			{
-				value = ft_strdup(eq + 1);
+				value = ft_strdup(tmp + 1);
 				if (!value)
-					exit_error(ERR_MEM);
+					exit_error("u1", ERR_MEM);
 				return (value);
 			}
 		}

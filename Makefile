@@ -1,46 +1,43 @@
 NAME	=	pipex
-SRCDIR	=	src
-OBJDIR	=	.obj
+SRCPATH	=	src
+OBJPATH	=	.obj
 FT		=	libft
 INC		=	include
-HEADER	=	pipex.h \
-			libft.h
-HFILES	=	$(addprefix $(INC)/, $(HEADER))
 
-SRCS	= main.c \
-		  utils.c \
-		  execute.c \
-		  pipex.c
+SRCS	=	main.c		utils.c \
+			execute.c	pipex.c
 
-SRCS	:=	$(addprefix $(SRCDIR)/, $(SRCS))
+SRCS	:=	$(addprefix $(SRCPATH)/, $(SRCS))
 FLAGS	=	-Wall -Wextra -Werror
-OBJECTS	=	$(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
-
-GREEN      = [1;32m
-RESET      = [0m
+OBJECTS	=	$(SRCS:$(SRCPATH)/%.c=$(OBJPATH)/%.o)
 
 all: ${NAME}
 
-$(NAME): ${OBJECTS}
-	make bonus -C ${FT}
-	gcc -I ${INC} $(OBJECTS) -l ft -L ${FT} -o $(NAME)
-	@echo "$(GREEN)Built target $(NAME)$(RESET)"
-$(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
-	gcc ${FLAGS} -I ${INC} -c $< -o $@
-$(OBJDIR):
+$(NAME): ${OBJECTS} ${FT}
+	make -s -C ${FT}
+	cc -I ${INC} $(OBJECTS) -l ft -L ${FT} -o $(NAME)
+	@printf "\t\e[5m\e[1m\e[32m>>>>>>>>>>\t$(NAME) created\t<<<<<<<<<<\e[0m\n"
+
+$(OBJPATH)/%.o: $(SRCPATH)/%.c ${INC}/pipex.h | $(OBJPATH)
+	cc ${FLAGS} -I ${INC} -c $< -o $@
+
+$(OBJPATH):
 	@mkdir -p $@
 
 clean:
-	make clean -C ${FT}
-	rm -rf ${OBJDIR}
+	make -s clean -C ${FT}
+	rm -rf ${OBJPATH}
+
 fclean: clean
-	make fclean -C ${FT}
+	make -s fclean -C ${FT}
 	rm -f ${NAME}
+	@printf "\t\e[1m\e[31m>>>>>>>>>>\t$(NAME) cleaned\t<<<<<<<<<<\e[0m\n\n"
+
 re: fclean all
 
 bonus: ${NAME}
 
 norm:
-	norminette src/* $(INC) ${FT}
+	norminette $(SRCPATH) $(INC) ${FT}
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean norm re bonus

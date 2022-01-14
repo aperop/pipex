@@ -6,7 +6,7 @@
 #    By: dhawkgir <dhawkgir@student.21-school.ru    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/14 17:59:45 by dhawkgir          #+#    #+#              #
-#    Updated: 2022/01/09 18:50:59 by dhawkgir         ###   ########.fr        #
+#    Updated: 2022/01/15 01:27:06 by dhawkgir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,18 +51,18 @@ RM = rm -f
 all: $(NAME)
 
 $(NAME): $(OBJ)
-		ar rcs $(NAME) $?
-
+		@ar rcs $(NAME) $?
+		@printf "\t\e[1m\e[32m>>>>>>>>>>\t$(NAME) created\t<<<<<<<<<<\e[0m\n"
 %.o: %.c ${PATH_INCLS}/libft.h
-		$(CC) $(FLAGS) -I ${PATH_INCLS} -c $< -o $@
+		@$(CC) $(FLAGS) -I ${PATH_INCLS} -c $< -o $@
 
 bonus: $(NAME)
 
 clean:
-		$(RM) $(OBJ)
+		@$(RM) $(OBJ)
 
 fclean: clean
-		$(RM) $(NAME)
+		@$(RM) $(NAME)
 
 re: fclean all
 

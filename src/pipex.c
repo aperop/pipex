@@ -6,23 +6,23 @@
 /*   By: dhawkgir <dhawkgir@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 20:51:44 by dhawkgir          #+#    #+#             */
-/*   Updated: 2022/01/10 00:57:54 by dhawkgir         ###   ########.fr       */
+/*   Updated: 2022/01/14 22:55:12 by dhawkgir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static int	open_file(char *fname, int red_type)
+static int	open_file(char *fname, int flag_type)
 {
 	int		fd;
 	int		flags;
 
 	flags = 0;
-	if (red_type == R_LEFT)
+	if (flag_type == R_LEFT)
 		flags = O_RDONLY;
-	else if (red_type == R_RIGHT)
+	else if (flag_type == R_RIGHT)
 		flags = O_CREAT | O_WRONLY | O_TRUNC;
-	else if (red_type == R_DRIGHT)
+	else if (flag_type == R_DRIGHT)
 		flags = O_CREAT | O_WRONLY | O_APPEND;
 	fd = open(fname, flags, S_IREAD | S_IWRITE);
 	return (fd);
@@ -33,9 +33,9 @@ static int	here_doc(t_param *param)
 	int		doc;
 	char	*line;
 
-	doc = open("here_doc", O_CREAT | O_RDWR | O_TRUNC, S_IREAD | S_IRWXU);
+	doc = open("here_doc", O_CREAT | O_RDWR | O_TRUNC, S_IRWXU);
 	if (doc == -1)
-		exit_error_arg("p1", param->file_in);
+		exit_error("p1", param->file_in);
 	write(1, "> ", 2);
 	line = get_next_line(1);
 	while (line)
@@ -61,11 +61,11 @@ static void	redirect_left(t_param *param, int i)
 	else
 		fd = open_file(param->file_in, R_LEFT);
 	if (fd == -1)
-		exit_error_arg("pipex: ", param->file_in);
+		exit_error("pipex: ", param->file_in);
 	if (dup2(fd, STDIN_FILENO) == -1)
-		exit_error_arg("p3", "dup2");
+		exit_error("p3", "dup2");
 	if (dup2(param->cmd[i].pipe[SIDE_OUT], STDOUT_FILENO) == -1)
-		exit_error_arg("p4", "dup2");
+		exit_error("p4", "dup2");
 }
 
 static void	redirect_right(t_param *param, int i)
@@ -74,11 +74,11 @@ static void	redirect_right(t_param *param, int i)
 
 	fd = open_file(param->file_out, param->cmd[i].type);
 	if (fd == -1)
-		exit_error_arg("p5", param->file_out);
+		exit_error("p5", param->file_out);
 	if (dup2(fd, STDOUT_FILENO) == -1)
-		exit_error_arg("p6", "dup2");
+		exit_error("p6", "dup2");
 	if (dup2(param->cmd[i - 1].pipe[SIDE_IN], STDIN_FILENO) == -1)
-		exit_error_arg("p7", "dup2");
+		exit_error("p7", "dup2");
 }
 
 void	pipex(t_param *param, int i)
@@ -93,10 +93,15 @@ void	pipex(t_param *param, int i)
 	else if (type == PIPE)
 	{
 		if (dup2(param->cmd[i].pipe[SIDE_OUT], STDOUT_FILENO) == -1)
-			exit_error_arg("p8", "dup2");
+			exit_error("p8", "dup2");
 		if (dup2(param->cmd[i - 1].pipe[SIDE_IN], STDIN_FILENO) == -1)
-			exit_error_arg("p9", "dup2");
+			exit_error("p9", "dup2");
 	}
 	close(param->cmd[i].pipe[SIDE_OUT]);
 	close(param->cmd[i].pipe[SIDE_IN]);
+	if (param->cmd[i].path == NULL)
+	{
+		errno = 0;
+		exit_error(param->cmd[i].arg[0], ": command not found");
+	}
 }

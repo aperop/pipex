@@ -6,7 +6,7 @@
 /*   By: dhawkgir <dhawkgir@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 20:51:34 by dhawkgir          #+#    #+#             */
-/*   Updated: 2022/01/10 12:49:04 by dhawkgir         ###   ########.fr       */
+/*   Updated: 2022/01/14 23:35:48 by dhawkgir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	*set_path(char *path, char *cmd)
 		free(tmp);
 	}
 	if (!res)
-		exit_error_arg("e1", ERR_MEM);
+		exit_error("e1", ERR_MEM);
 	if (!access(res, 1))
 		return (res);
 	else
@@ -43,11 +43,11 @@ static void	get_path_to_cmd(t_param *param, char **env)
 	size_t	i;
 	int		j;
 
-	path = get_env_value("PATH", env);
+	path = get_path_value("PATH", env);
 	path_array = ft_split(path, ':');
 	if (!path_array)
-		exit_error_arg("e2", ERR_MEM);
-	ft_free(&path);
+		exit_error("e2", ERR_MEM);
+	free_path(&path);
 	i = -1;
 	while (++i < param->size)
 	{
@@ -71,7 +71,7 @@ static void	close_fd(t_param *param, int i)
 		close(param->cmd[i].pipe[SIDE_IN]);
 }
 
-void	execute_commands(t_param *param, char **env)
+void	execute(t_param *param, char **env)
 {
 	size_t	i;
 
@@ -80,21 +80,14 @@ void	execute_commands(t_param *param, char **env)
 	while (i < param->size)
 	{
 		if (pipe(param->cmd[i].pipe) == -1)
-			exit_error_arg("e3", "Pipe");
+			exit_error("", "Pipe error!");
 		param->cmd[i].pid = fork();
 		if (param->cmd[i].pid == -1)
-			exit_error_arg("e4", "Fork");
+			exit_error("", "Fork error!");
 		else if (param->cmd[i].pid == 0)
 		{
 			pipex(param, i);
-			if (param->cmd[i].path == NULL)
-			{
-				
-				errno = 0;
-				exit_error_arg(param->cmd[i].arg[0], ": command not found");
-			}
 			execve(param->cmd[i].path, param->cmd[i].arg, env);
-			exit_error_arg("e5", "execve");
 		}
 		else
 			close_fd(param, i);
