@@ -6,13 +6,10 @@
 /*   By: dhawkgir <dhawkgir@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 12:21:18 by dhawkgir          #+#    #+#             */
-/*   Updated: 2022/01/09 00:23:01 by dhawkgir         ###   ########.fr       */
+/*   Updated: 2022/01/15 14:43:32 by dhawkgir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-Функция ft_putchar_fd выводит символ c в файловый дискриптор fd.
-*/
 #include "../includes/libft.h"
 
 void	ft_putchar_fd(char c, int fd)

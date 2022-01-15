@@ -6,7 +6,7 @@
 /*   By: dhawkgir <dhawkgir@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 20:51:48 by dhawkgir          #+#    #+#             */
-/*   Updated: 2022/01/15 00:03:15 by dhawkgir         ###   ########.fr       */
+/*   Updated: 2022/01/15 14:49:58 by dhawkgir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,21 @@ char	**free_array(char **array)
 	}
 	free(array);
 	return (NULL);
+}
+
+void	free_struct(t_param *param)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < param->size)
+	{
+		free_array(param->cmd[i].arg);
+		free_path(&param->cmd[i].path);
+		i++;
+	}
+	free(param->cmd);
+	free(param);
 }
 
 void	exit_error(char *msg, char *arg)
@@ -60,7 +75,7 @@ char	*get_path_value(char *name, char **env)
 			{
 				value = ft_strdup(tmp + 1);
 				if (!value)
-					exit_error("u1", ERR_MEM);
+					exit_error("", ERR_MEM);
 				return (value);
 			}
 		}

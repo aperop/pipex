@@ -6,7 +6,7 @@
 /*   By: dhawkgir <dhawkgir@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 20:51:34 by dhawkgir          #+#    #+#             */
-/*   Updated: 2022/01/14 23:35:48 by dhawkgir         ###   ########.fr       */
+/*   Updated: 2022/01/15 13:47:02 by dhawkgir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	*set_path(char *path, char *cmd)
 		free(tmp);
 	}
 	if (!res)
-		exit_error("e1", ERR_MEM);
+		exit_error("", ERR_MEM);
 	if (!access(res, 1))
 		return (res);
 	else
@@ -46,7 +46,7 @@ static void	get_path_to_cmd(t_param *param, char **env)
 	path = get_path_value("PATH", env);
 	path_array = ft_split(path, ':');
 	if (!path_array)
-		exit_error("e2", ERR_MEM);
+		exit_error("", ERR_MEM);
 	free_path(&path);
 	i = -1;
 	while (++i < param->size)

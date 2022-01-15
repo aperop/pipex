@@ -6,7 +6,7 @@
 /*   By: dhawkgir <dhawkgir@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 20:52:42 by dhawkgir          #+#    #+#             */
-/*   Updated: 2022/01/15 00:46:17 by dhawkgir         ###   ########.fr       */
+/*   Updated: 2022/01/15 14:58:02 by dhawkgir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ char	**free_array(char **array);
 void	exit_error(char *msg, char *arg);
 void	execute(t_param *param, char **env);
 char	*get_path_value(char *name, char **env);
+void	free_struct(t_param *param);
 void	pipex(t_param *param, int i);
 
 #endif

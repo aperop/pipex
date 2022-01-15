@@ -1,14 +1,26 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: dhawkgir <dhawkgir@student.21-school.ru    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/01/15 14:56:51 by dhawkgir          #+#    #+#              #
+#    Updated: 2022/01/15 14:56:52 by dhawkgir         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME	=	pipex
 SRCPATH	=	src
 OBJPATH	=	.obj
 FT		=	libft
 INC		=	include
 
-SRCS	=	main.c		utils.c \
-			execute.c	pipex.c
+SRCS	=	$(SRCPATH)/main.c		$(SRCPATH)/utils.c \
+			$(SRCPATH)/execute.c	$(SRCPATH)/pipex.c
 
-SRCS	:=	$(addprefix $(SRCPATH)/, $(SRCS))
 FLAGS	=	-Wall -Wextra -Werror
+
 OBJECTS	=	$(SRCS:$(SRCPATH)/%.c=$(OBJPATH)/%.o)
 
 all: ${NAME}

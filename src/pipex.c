@@ -6,7 +6,7 @@
 /*   By: dhawkgir <dhawkgir@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 20:51:44 by dhawkgir          #+#    #+#             */
-/*   Updated: 2022/01/14 22:55:12 by dhawkgir         ###   ########.fr       */
+/*   Updated: 2022/01/15 13:48:05 by dhawkgir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	here_doc(t_param *param)
 
 	doc = open("here_doc", O_CREAT | O_RDWR | O_TRUNC, S_IRWXU);
 	if (doc == -1)
-		exit_error("p1", param->file_in);
+		exit_error("", param->file_in);
 	write(1, "> ", 2);
 	line = get_next_line(1);
 	while (line)
@@ -63,9 +63,9 @@ static void	redirect_left(t_param *param, int i)
 	if (fd == -1)
 		exit_error("pipex: ", param->file_in);
 	if (dup2(fd, STDIN_FILENO) == -1)
-		exit_error("p3", "dup2");
+		exit_error("", "dup2");
 	if (dup2(param->cmd[i].pipe[SIDE_OUT], STDOUT_FILENO) == -1)
-		exit_error("p4", "dup2");
+		exit_error("", "dup2");
 }
 
 static void	redirect_right(t_param *param, int i)
@@ -74,11 +74,11 @@ static void	redirect_right(t_param *param, int i)
 
 	fd = open_file(param->file_out, param->cmd[i].type);
 	if (fd == -1)
-		exit_error("p5", param->file_out);
+		exit_error("", param->file_out);
 	if (dup2(fd, STDOUT_FILENO) == -1)
-		exit_error("p6", "dup2");
+		exit_error("", "dup2");
 	if (dup2(param->cmd[i - 1].pipe[SIDE_IN], STDIN_FILENO) == -1)
-		exit_error("p7", "dup2");
+		exit_error("", "dup2");
 }
 
 void	pipex(t_param *param, int i)
@@ -93,9 +93,9 @@ void	pipex(t_param *param, int i)
 	else if (type == PIPE)
 	{
 		if (dup2(param->cmd[i].pipe[SIDE_OUT], STDOUT_FILENO) == -1)
-			exit_error("p8", "dup2");
+			exit_error("", "dup2");
 		if (dup2(param->cmd[i - 1].pipe[SIDE_IN], STDIN_FILENO) == -1)
-			exit_error("p9", "dup2");
+			exit_error("", "dup2");
 	}
 	close(param->cmd[i].pipe[SIDE_OUT]);
 	close(param->cmd[i].pipe[SIDE_IN]);

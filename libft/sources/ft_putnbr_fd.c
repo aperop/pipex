@@ -6,13 +6,10 @@
 /*   By: dhawkgir <dhawkgir@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 14:28:46 by dhawkgir          #+#    #+#             */
-/*   Updated: 2022/01/09 00:23:01 by dhawkgir         ###   ########.fr       */
+/*   Updated: 2022/01/15 14:43:39 by dhawkgir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-Функция ft_putnbr_fd выводит число n в файловый дискриптор fd.
-*/
 #include "../includes/libft.h"
 
 void	ft_putnbr_fd(int n, int fd)
