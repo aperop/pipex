@@ -6,7 +6,7 @@
 /*   By: dhawkgir <dhawkgir@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 20:51:41 by dhawkgir          #+#    #+#             */
-/*   Updated: 2022/01/15 14:57:26 by dhawkgir         ###   ########.fr       */
+/*   Updated: 2022/01/18 14:14:15 by dhawkgir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	parse_here_doc(t_param *param, int argc, char **argv)
 {
 	if (argc != 6)
 	{
-		free_struct(param);
+		free(param);
 		exit_error(ERR_ARG1, ERR_ARG2);
 	}
 	param->limiter = argv[2];
@@ -73,7 +73,7 @@ static void	parse_args(t_param *param, int argc, char **argv)
 {
 	if (argc < 5)
 	{
-		free_struct(param);
+		free(param);
 		exit_error(ERR_ARG1, ERR_ARG2);
 	}
 	param->limiter = NULL;
